@@ -1,0 +1,14 @@
+:redboot.rom        &00000000
+#domain             &0001FF80(1 byte)
+#country            &0001FF81(1 byte)
+#SN                 &0001FF90(16 bytes)
+#MAC                &0001FFA0(6 bytes)
+#mac                &0001FF90
+##pid               0001FFBA - 0001FFFF
+#nvram             &00020000(64K)
+:vmlinux.bin.gz     &00030050
+:rootfs.squashfs	&0012FFF0
+##pid2              003FFFF0 - 003FFFFF
+%f5d8232-4.pid      &0001FFFF &003FFFF0
+$SIZE               &1000
+

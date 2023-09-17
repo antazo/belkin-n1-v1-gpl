@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# begin log event
+/sbin/klogd&
+/sbin/rc syslogd start
+
+#######################################
+# Configure Network Options           #
+#######################################
+
+# Configure loopback interface: lo
+/sbin/ifconfig lo 127.0.0.1
+/sbin/route add -net 127.0.0.0 netmask 255.0.0.0 lo
+
+# Configure lan interfaces: eth1, br0
+/sbin/ifconfig eth1 up
+#/sbin/ifconfig ra0 up
+/sbin/brctl addbr br0
+/sbin/brctl stp br0 off
+#/sbin/brctl addif br0 ra0
+/sbin/brctl addif br0 eth1
+
+# start wireless
+#/sbin/rc wireless start
+
+#  Enables packet forwarding
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+# Enable support of dynamic IP addresses by kernel
+echo 1 > /proc/sys/net/ipv4/ip_dynaddr
+
+# add more connection track 
+echo 3072 > /proc/sys/net/ipv4/ip_conntrack_max
+
+# ignore_all not yet used: this should be satisfactory
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+# drop spoofed addr: turn this off when rip is on ?
+echo 1 > /proc/sys/net/ipv4/conf/default/rp_filter
+echo 1 > /proc/sys/net/ipv4/conf/all/rp_filter
+# do not honor source route flags
+echo 0 > /proc/sys/net/ipv4/conf/default/accept_source_route
+echo 0 > /proc/sys/net/ipv4/conf/all/accept_source_route
+echo 100 > /proc/sys/net/core/netdev_max_backlog
+
+# start lan
+/sbin/rc lan start
+/bin/cp /proc/uptime /tmp/lan_uptime
+/sbin/rc dhcpd start
+/sbin/rc wireless start
+
+# start wan
+/sbin/rc wan start
+
+/sbin/rc ntp start
+
+# begin app level timer, should be after ntp
+/usr/sbin/crond &
+
+#######################################
+# Configure Services                  #
+#######################################
+
+
+/usr/sbin/cmd_agent &
+/sbin/rc httpd start
+/sbin/rc upnp start
+
+
+
+# eazy install
+/usr/sbin/ezinstall &
+
+# for FT test
+/usr/sbin/download &
+
+
+#dial up wan connection
+/bin/ping -c 3 -q 10.112.112.112 > /dev/null

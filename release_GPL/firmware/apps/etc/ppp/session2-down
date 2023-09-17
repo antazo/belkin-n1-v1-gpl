@@ -1,0 +1,5 @@
+#!/bin/sh
+/bin/rm /tmp/pppoe_multi_uptime
+/usr/sbin/rc wan stop session2
+/bin/echo 'search multi_pppoe' > /tmp/S2_resolv.conf
+/sbin/route del $5 dev $1

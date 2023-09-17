@@ -1,0 +1,6 @@
+#!/bin/sh
+/bin/cp /proc/up_time /tmp/wan_uptime
+/usr/sbin/rc dhcpd create
+/usr/sbin/rc service restart
+/usr/bin/killall -SIGUSR2 udhcpd
+

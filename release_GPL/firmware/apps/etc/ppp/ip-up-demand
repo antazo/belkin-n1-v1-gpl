@@ -1,0 +1,8 @@
+#!/bin/sh
+/bin/cp /proc/uptime /tmp/wan_uptime
+/usr/sbin/rc dhcpd create
+/usr/sbin/rc service restart
+/bin/cp /etc/ppp/ip-down /tmp/ppp/
+#/bin/echo "/usr/bin/killall atm_monitor;/usr/sbin/atm_monitor" >>/etc/ppp/ip-down
+#/usr/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE
+/usr/bin/killall -SIGUSR2 udhcpd

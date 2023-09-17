@@ -1,0 +1,9 @@
+How to build the image?
+	./buildGPL.sh
+	You can get the new fw image in firmware/images/f5d8232-4.img and you can download it into board via web.
+    You can upgrade new bootloader with firmware/images/f5d8232-4_a.img and you can download it into board via web.
+
+Note:
+1. In the compile progress, if some prompt occur, just use default setting by click "Enter"
+2. You should compile the project by root user
+

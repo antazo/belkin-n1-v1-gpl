@@ -1,0 +1,1 @@
+#define CONFIG_ADM6996FC_PHY 1

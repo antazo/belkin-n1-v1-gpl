@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if ( test -e f5d8232-4.bin) then rm -rf ip1006aa.bin; fi
+if ( test -e f5d8232-4.img) then rm -rf ip1006aa.img; fi
+if ( test -e f5d8232-4.img) then rm -rf ip1006aa_a.img; fi
+
+./mipsBind f5d8232-4.par linux.bin
+./add_entry `grep "entry" vmlinux.info |cut -d":" -f 2` `grep "link" vmlinux.info |cut -d":" -f 2`
+mv linux_final.bin f5d8232-4.bin
+rm linux.bin
+zip f5d8232-4.zip f5d8232-4.bin
+./scimg f5d8232-4.bin
+./encrypt f5d8232-4.img
+
+rm f5d8232-4.zip f5d8232-4.bin

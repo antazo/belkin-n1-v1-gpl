@@ -1,0 +1,41 @@
+#!/bin/sh -x
+
+# udhcpc script edited by Tim Riker <Tim@Rikers.org>
+
+[ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
+
+RESOLV_CONF="/var/resolv.conf"
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+case "$1" in
+    deconfig)
+        /sbin/ifconfig $interface 0.0.0.0
+    ;;
+
+    renew|bound)
+        /sbin/ifconfig $interface $ip $BROADCAST $NETMASK
+
+        if [ -n "$AddRoute" ] ; then
+            /bin/echo "add route for server $serverip"
+    	    if [ -n "$router" ] ; then
+                /bin/echo "deleting server routers"
+                while route del $SERVER dev $interface ; do
+    				:
+                done
+                for i in $router ; do
+                    route add $SERVER gw $i dev $interface
+                done
+            fi
+        fi
+
+        if  [ -n "$ServiceRestart" ] ; then
+            echo "eth1 IP address changed"
+            echo -n > $RESOLV_CONF
+            /usr/sbin/rc wan start &
+	    fi
+    ;;
+esac
+
+exit 0
+

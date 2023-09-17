@@ -1,0 +1,4 @@
+#!/bin/sh
+/usr/sbin/rc wan stop
+/bin/rm /tmp/wan_uptime
+/bin/echo "search WRT300N" > /var/resolv.conf

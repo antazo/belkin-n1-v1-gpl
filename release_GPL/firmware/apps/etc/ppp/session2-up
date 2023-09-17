@@ -1,0 +1,8 @@
+#!/bin/sh
+/bin/cp /proc/uptime /tmp/pppoe_multi_uptime
+/bin/cat /var/resolv.conf > /tmp/S2_resolv.conf
+/usr/sbin/rc dhcpd create
+/usr/sbin/rc service restart
+/bin/cp /etc/ppp/multi-ip-down /tmp/ppp/ip-down
+#/usr/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE
+/usr/bin/killall -SIGUSR2 udhcpd

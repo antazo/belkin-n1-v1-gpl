@@ -1,0 +1,33 @@
+#!/bin/sh
+
+#######################################
+# Init                                #
+#######################################
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/sbin/scripts
+
+UTC=yes
+
+mount -n -t proc proc /proc
+mount -n -t ramfs ramfs /tmp
+
+# build var directories
+/bin/mkdir -m 0777 /tmp/var
+/bin/mkdir -m 0777 /tmp/lcd
+/bin/mkdir -m 0777 /tmp/lcd/network_status
+/bin/mkdir -m 0777 /tmp/lcd/network_status/speed
+/bin/mkdir -m 0777 /var/lock
+/bin/mkdir -m 0777 /var/log
+/bin/mkdir -m 0777 /var/run
+/bin/mkdir -m 0777 /var/tmp
+/bin/mkdir -m 0777 /tmp/ppp
+/bin/mkdir -m 0777 /tmp/l2tp
+/bin/echo power_on > /tmp/lcd/network_status/power
+
+/sbin/insmod /lib/modules/2.6.15/net/ag7100_mod.ko
+/sbin/insmod /lib/modules/ipt_psd.ko
+/sbin/insmod /lib/modules/ipt_random.ko
+/sbin/insmod /lib/modules/lcd.ko
+/sbin/lcd&
+
+# check if nvram crc error, restore to default
+/sbin/rc init

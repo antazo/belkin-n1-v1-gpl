@@ -1,0 +1,8 @@
+#!/bin/sh
+/bin/cp /proc/uptime /tmp/wan_uptime
+/usr/sbin/rc dhcpd create
+/usr/sbin/rc service restart
+#/bin/cp /proc/uptime /tmp/wan_uptime
+/bin/cp /etc/ppp/ip-down /tmp/ppp/
+#/usr/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE
+/usr/bin/killall -SIGUSR2 udhcpd

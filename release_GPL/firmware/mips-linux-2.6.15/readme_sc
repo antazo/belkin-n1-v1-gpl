@@ -1,0 +1,52 @@
+sercomm changes (please search macro _SC_BUILD_ for source code changes)
+-----------------
+(1) add marco _SC_BUILD_
+(2) let make clean keep .config
+        Makefile
+
+(3) remove wps push button and led functions, we use sercomm ones
+        arch\mips\ar7100\gpio.c
+    
+(4) GPIO control
+        \arch\mips\ar7100\setup.c
+    
+(5) NOT use tftp root
+        \arch\mips\boot\Makefile
+    
+(6) flash partition / driver
+        \drivers\mtd\devices\ar7100_flash.c
+    
+(7) conflict between dial on demand and ping / dns query
+        \drivers\net\ppp_generic.c
+    
+(8) squashfs patch
+        \fs\Kconfig
+        \fs\Makefile
+        \init\do_mounts_rd.c
+        add \fs\squashfs\
+            \include\linux\squashfs_fs.h
+            \include\linux\squashfs_fs_i.h
+            \include\linux\squashfs_fs_sb.h
+    
+(9) firmware upgrade
+        \include\asm-mips\mach-ar7100\ar7100.h
+    
+(10) firewall module
+        add \include\linux\netfilter_ipv4\ip_conntrack_h323.h
+            \include\linux\netfilter_ipv4\ipt_psd.h
+            \include\linux\netfilter_ipv4\ipt_random.h
+            \net\ipv4\netfilter\asn1_per.c\net\ipv4\netfilter\asn1_per.h
+            \net\ipv4\netfilter\ip_conntrack_h323_core.c
+            \net\ipv4\netfilter\ip_conntrack_h323_h225.c
+            \net\ipv4\netfilter\ip_conntrack_h323_h245.c
+            \net\ipv4\netfilter\ip_nat_h323.c
+        
+(11) firmware upgrade and LCD
+        \include\linux\netlink.h
+    
+(12) ping of death log
+        \net\ipv4\ip_fragment.c
+    
+(13) new firmware auto check
+        \include\linux\netfilter_ipv4\ipt_REJECT.h
+        \net\ipv4\netfilter\ipt_REJECT.c
