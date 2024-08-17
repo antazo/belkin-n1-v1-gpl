@@ -1,6 +1,6 @@
 ## belkin-n1-v1-gpl
 # Belkin N1 Vision (GPL Source Code)
-This repository contains the latest version of the GPL source code for the Belkin N1 (version 1) that was removed from the official Belkin Open Source Code Center.
+Belkin N1 Vision v1 latest GPL source code version that was removed from the official Belkin Open Source Code Center.
 
 <P>
 Model: F5D8232-4 (version 1)</BR>
